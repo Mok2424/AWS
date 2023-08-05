@@ -68,3 +68,6 @@ if __name__ == "__main__":
 
 #mapred streaming
 mapred streaming -files mapper.py,reducer.py -input final_animedateset.csv -output avg2 -mapper "python3 mapper.py" -reducer "python3 reducer.py"
+
+#Run MapReduce on single instance 
+time cat final_animedataset.csv | python3 mapper.py | sort - | python3 reducer.py > outputlocal.txt
