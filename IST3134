@@ -64,3 +64,7 @@ if __name__ == "__main__":
 
     if current_anime_id is not None:
         reducer(current_anime_id, scores)
+
+
+#mapred streaming
+mapred streaming -files mapper.py,reducer.py -input final_animedateset.csv -output avg2 -mapper "python3 mapper.py" -reducer "python3 reducer.py"
