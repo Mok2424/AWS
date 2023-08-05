@@ -1,0 +1,66 @@
+
+#mappercode
+#!/usr/bin/env python 
+
+
+import sys 
+
+
+def mapper(value): 
+
+    output = value.split(',') 
+
+    anime_id = output[1] 
+
+    score = output[2] 
+
+  
+
+    try: 
+
+        score = float(score) 
+
+    except ValueError: 
+
+        return 
+
+  
+
+    print("%s\t%s" % (anime_id, score)) 
+
+for line in sys.stdin: 
+
+    mapper(line) 
+
+#reducercode
+#!/usr/bin/env python3 
+
+from operator import itemgetter
+import sys
+
+def reducer(anime_id, scores):
+    total_score = sum(scores)
+    num_scores = len(scores)
+    average_score = total_score / num_scores
+    print(anime_id, average_score)
+
+if __name__ == "__main__":
+    current_anime_id = None
+    scores = []
+
+    for line in sys.stdin:
+        anime_id, score = line.strip().split('\t')
+        score = float(score)
+
+        if current_anime_id is None:
+            current_anime_id = anime_id
+
+        if anime_id != current_anime_id:
+            reducer(current_anime_id, scores)
+            scores = []
+            current_anime_id = anime_id
+
+        scores.append(score)
+
+    if current_anime_id is not None:
+        reducer(current_anime_id, scores)
